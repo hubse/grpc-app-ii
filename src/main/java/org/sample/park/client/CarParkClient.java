@@ -11,13 +11,16 @@ public class CarParkClient {
 
     public static void main(String[] args) {
 
-        // Channel is used by the client to communicate with the server.
+        // Channel is used by the client to communicate with the server using the domain localhost and port 5003.
+        // This is the port where our server is starting.
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 5003)
                 .usePlaintext()
                 .build();
 
+        // Auto generated stub class with the constructor wrapping the channel.
         CarParkServiceGrpc.CarParkServiceBlockingStub stub =CarParkServiceGrpc.newBlockingStub(channel);
 
+        // Start calling the `parkVehicle` method
         ParkRequest parkRequest = ParkRequest.newBuilder()
                 .setVehicle(Vehicle.newBuilder()
                         .setVehicleNumber("NA-1324")
@@ -28,8 +31,9 @@ public class CarParkClient {
         ParkResponse parkResponse = stub.parkVehicle(parkRequest);
         System.out.println("Response for the first call: " + parkResponse.getResult());
 
-        System.out.println("### Initiating the second request ###");
+        // Call to the `parkVehicle` method is successfully completed. Now calling the `parkVehicleManyTimes` method.
         // Hold the thread for 10s before calling the other method.
+        System.out.println("### Initiating the second request ###");
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
@@ -47,5 +51,6 @@ public class CarParkClient {
         stub.parkVehicleManyTimes(parkRequest2).forEachRemaining(parkResponseManyTimes -> {
             System.out.println(parkResponseManyTimes.getResult());
         });
+        // Call to the `parkVehicleManyTimes` method is successfully completed.
     }
 }

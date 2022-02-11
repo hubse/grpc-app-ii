@@ -21,7 +21,11 @@ public class CarParkServiceImpl extends CarParkServiceGrpc.CarParkServiceImplBas
                 .newBuilder()
                 .setResult(resultMsg)
                 .build();
+
+        // Send the response to the client.
         responseObserver.onNext(parkResponse);
+
+        // Notifies the customer that the call is completed.
         responseObserver.onCompleted();
         System.out.println(resultMsg);
 

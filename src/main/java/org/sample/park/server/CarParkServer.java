@@ -14,6 +14,8 @@ public class CarParkServer {
                 .build();
 
         server.start();
+
+        // Server is kept alive for the client to communicate.
         server.awaitTermination();
     }
 }
